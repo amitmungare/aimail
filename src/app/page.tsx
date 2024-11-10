@@ -5,5 +5,9 @@ export default async function Home() {
  return <LinkAccountButton/>
 }
 
-//1:37:55
+//2:04:30
+
 // bun dev
+
+// bun prisma studio
+    // bun prisma db push
