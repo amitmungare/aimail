@@ -5,7 +5,7 @@ export default async function Home() {
  return <LinkAccountButton/>
 }
 
-//2:04:30
+//2:30:00
 
 // bun dev
 
