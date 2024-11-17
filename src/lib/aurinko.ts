@@ -1,6 +1,7 @@
 "use server"
 import axios from 'axios'
 import { auth } from "@clerk/nextjs/server"
+import { EmailMessage } from '@/types'
 
 export const getAurinkoAuthUrl = async (serviceType:'Google' | 'Office365')=>{
     const {userId} = await auth()
@@ -54,6 +55,27 @@ export const getAccountDetails = async (accessToken: string) => {
             console.error('Error fetching account details:', error.response?.data);
         } else {
             console.error('Unexpected error fetching account details:', error);
+        }
+        throw error;
+    }
+}
+
+export const getEmailDetails = async (accessToken: string, emailId: string) => {
+    try {
+        const response = await axios.get<EmailMessage>(`https://api.aurinko.io/v1/email/messages/${emailId}`, {
+            params: {
+                loadInlines: true
+            },
+            headers: {
+                'Authorization': `Bearer ${accessToken}`
+            }
+        });
+        return response.data
+    } catch (error) {
+        if (axios.isAxiosError(error)) {
+            console.error('Error fetching email details:', error.response?.data);
+        } else {
+            console.error('Unexpected error fetching email details:', error);
         }
         throw error;
     }
